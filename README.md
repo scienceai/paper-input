@@ -12,7 +12,7 @@ import PaperInput from 'paper-input';
 
 ### Using the CSS
 ```css
-@import "../node_modules/paper-input/dist/paper-input.css";
+@import "/path/to/node_modules/paper-input/dist/paper-input.css";
 ```
 
 ### API
