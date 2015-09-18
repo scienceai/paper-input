@@ -1,0 +1,36 @@
+{
+  "name": "paper-input",
+  "version": "0.1.0",
+  "description": "Paper Input React component",
+  "main": "index.js",
+  "scripts": {
+    "build-js": "./node_modules/.bin/babel src/paper-input.js -o dist/paper-input.js",
+    "build-css": "./node_modules/.bin/cssnext src/paper-input.css dist/paper-input.css",
+    "prerelease": "rm -rf dist && npm run build-js && npm run build-css",
+    "test": "./node_modules/.bin/mocha --compilers js:babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/standard-analytics/paper-input.git"
+  },
+  "keywords": [
+    "Material UI",
+    "Material Design Lite",
+    "react",
+    "Paper",
+    "scientific UI"
+  ],
+  "author": "Chris Callahan <chris@standardanalytics.io>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/standard-analytics/paper-input/issues"
+  },
+  "homepage": "https://github.com/standard-analytics/paper-input",
+  "dependencies": {
+    "react": ">=0.13.0 || 0.14.0-rc1"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "cssnext": "^1.8.4"
+  }
+}

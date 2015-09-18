@@ -1,0 +1,131 @@
+:root {
+  --color_accent: #42A5F5;
+  --color_error: #D34336;
+}
+
+.paper-input {
+  position: relative;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: .05em;
+}
+
+.paper-input.big {
+  font-size: 16px;
+}
+
+.paper-input button {
+  margin-top: auto;
+  margin-bottom: auto;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+}
+
+.paper-input input {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: 0px !important;
+  padding: 4px 0;
+  background-color: transparent;
+  letter-spacing: .05em;
+}
+
+.paper-input input[disabled] {
+  border-bottom: 1px dashed rgba(0,0,0, 0.12);
+  background-color: transparent;
+}
+
+.paper-input input ~ label {
+  width: 100%;
+  letter-spacing: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  bottom: 4px;
+  color: rgba(0, 0, 0, 0.26);
+  transition: color 200ms linear,
+              letter-spacing 200ms linear;
+}
+
+.paper-input input:focus {
+  outline: none;
+  top: 0;
+}
+
+.paper-input input ~ label::after {
+  content: '';
+  background-color: var(--color_accent);
+  height: 2px;
+  width: 100%;
+  bottom: -4px;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 500ms ease;
+  left: 0;
+}
+
+.paper-input input:focus ~ label::after {
+  width: 100%;
+  opacity: 1;
+  left: 0;
+}
+
+.paper-input input.dirty ~ label {
+  visibility: hidden;
+}
+
+.paper-input input.dirty ~ label,
+.paper-input input.dirty:focus ~ label {
+  /* hide the label when dirty */
+  color: rgba(0, 0, 0, 0);
+}
+
+.paper-input.float-label input:focus ~ label,
+.paper-input.float-label input.dirty ~ label {
+  top: -14px;
+  font-size: 12px;
+  visibility: visible;
+}
+
+.paper-input.float-label input.dirty ~ label {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.paper-input.float-label input:focus ~ label {
+  color: var(--color_accent);
+}
+
+.paper-input.float-label input.touched:focus:invalid ~ label {
+  top: -14px;
+  font-size: 12px;
+  color: var(--color_error);
+}
+
+.paper-input input.touched:invalid ~ label::after {
+  background-color: var(--color_error);
+}
+
+.paper-input .error {
+  float: left;
+  margin-top: 3px;
+  color: var(--color_error);
+  font-size: 12px;
+  visibility: hidden;
+  letter-spacing: normal;
+}
+
+.paper-input input.touched:invalid ~ .error {
+  visibility: visible;
+}
+
+.paper-input input.touched:focus:invalid {
+  box-shadow: none;
+  border-color: var(--color_error);
+}
