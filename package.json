@@ -1,12 +1,12 @@
 {
   "name": "paper-input",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Paper Input React component",
   "main": "index.js",
   "scripts": {
     "build-js": "./node_modules/.bin/babel src/paper-input.js -o dist/paper-input.js",
     "build-css": "./node_modules/.bin/cssnext src/paper-input.css dist/paper-input.css",
-    "prepublish": "rm -rf dist && mkdir dist && npm run build-js & npm run build-css",
+    "prepublish": "rm -rf dist && mkdir dist && npm run build-js && npm run build-css",
     "test": "./node_modules/.bin/mocha --compilers js:babel/register"
   },
   "repository": {
