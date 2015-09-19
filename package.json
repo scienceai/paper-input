@@ -1,6 +1,6 @@
 {
   "name": "paper-input",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Paper Input React component",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "babel": "^5.8.23",
-    "cssnext": "^1.8.4"
+    "cssnext": "^1.8.4",
+    "react-addons-test-utils": "^0.14.0-rc1"
   }
 }

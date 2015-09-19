@@ -32,7 +32,7 @@ import PaperInput from 'paper-input';
 ```js
 <PaperInput
   name='email'
-  label='Email Address',
+  label='Email Address'
   type='email'
   floatLabel={true}
   error={this.state.error ? 'Please enter a valid email address' : ''}
