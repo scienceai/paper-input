@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/standard-analytics/paper-input",
   "dependencies": {
-    "react": ">=0.13.0 || 0.14.0-rc1"
+    "react": "0.14.0-rc1"
   },
   "devDependencies": {
     "babel": "^5.8.23",
