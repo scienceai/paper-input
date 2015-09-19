@@ -1,4 +1,4 @@
-# <PaperInput />
+# `<PaperInput />`
 
 ### Install
 ```
