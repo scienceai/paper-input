@@ -70,11 +70,17 @@ export default class PaperInput extends Component {
 
   render() {
     let className = this.props.className || '';
+    let props = Object.keys(this.props).reduce((prev, curr) => {
+      if (curr !== 'className') {
+        prev[curr] = this.props[curr];
+      }
+      return prev;
+    }, {});
 
     return (
-      <div className={`paper-input${this.props.floatLabel ? ' float-label' : ''}${className ? ` ${className}` : ''}`}>
+      <div className={`paper-input${this.props.floatLabel ? ' float-label' : ''}${className}`}>
         <input
-          {...this.props}
+          {...props}
           ref='input'
           className={`${className}${this.state.dirty ? ' dirty' : ''}${this.state.touched ? ' touched' : ''}`}
           onBlurCapture={this.handleBlurCapture.bind(this)}
