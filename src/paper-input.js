@@ -1,4 +1,5 @@
 import React, { Component, findDOMNode, PropTypes } from 'react';
+import classnames from 'classnames';
 
 export default class PaperInput extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class PaperInput extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       dirty: (('defaultValue' in nextProps) ? !!nextProps.defaultValue : !!nextProps.value) || !!findDOMNode(this.refs.input).value,
-      touched: (nextProps.value)? this.state.touched : false
+      touched: (nextProps.value) ? this.state.touched : false
     });
   }
 
@@ -69,7 +70,17 @@ export default class PaperInput extends Component {
   }
 
   render() {
-    let className = this.props.className || '';
+    let { floatLabel, className, name, label, error } = this.props;
+    let { dirty, touched } = this.state;
+    let containerClassNames = classnames({
+      'paper-input': true,
+      'float-label': !!floatLabel,
+      [className]: !!className
+    });
+    let inputClassNames = classnames({
+      dirty: !!dirty,
+      touched: !! touched
+    });
     let props = Object.keys(this.props).reduce((prev, curr) => {
       if (curr !== 'className') {
         prev[curr] = this.props[curr];
@@ -78,17 +89,17 @@ export default class PaperInput extends Component {
     }, {});
 
     return (
-      <div className={`paper-input${this.props.floatLabel ? ' float-label' : ''}${className}`}>
+      <div className={containerClassNames}>
         <input
           {...props}
           ref='input'
-          className={`${className}${this.state.dirty ? ' dirty' : ''}${this.state.touched ? ' touched' : ''}`}
+          className={inputClassNames}
           onBlurCapture={this.handleBlurCapture.bind(this)}
           onKeyPress={this.handleKeyPress.bind(this)}
           onChange={this.handleChange.bind(this)}
         />
-        <label htmlFor={this.props.name}>{this.props.label}</label>
-        <span className='error'>{this.props.error}</span>
+        <label htmlFor={name}>{label}</label>
+        <span className='error'>{error}</span>
       </div>
     );
   }
