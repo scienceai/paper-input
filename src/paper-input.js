@@ -113,8 +113,8 @@ PaperInput.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onBlurCapture: PropTypes.func,
-  onKeyPress: PropTypes.func,
   onChange: PropTypes.func,
+  onKeyPress: PropTypes.func,
   type: PropTypes.string,
   value: PropTypes.string
 };

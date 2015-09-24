@@ -1,6 +1,6 @@
 # `<PaperInput />`
 
-[![Build Status](https://travis-ci.org/standard-analytics/paper-input.svg?branch=master)](https://travis-ci.org/standard-analytics/paper-input)
+[![Build Status](https://travis-ci.org/scienceai/paper-input.svg?branch=master)](https://travis-ci.org/scienceai/paper-input)
 
 ### Install
 ```
