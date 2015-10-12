@@ -12,7 +12,7 @@
   letter-spacing: .05em;
 }
 
-.paper-input.big {
+.paper-input.big, .paper-input.big input {
   font-size: 16px;
 }
 

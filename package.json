@@ -1,6 +1,6 @@
 {
   "name": "paper-input",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Paper Input React component",
   "main": "index.js",
   "scripts": {

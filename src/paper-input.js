@@ -79,7 +79,7 @@ export default class PaperInput extends Component {
     });
     let inputClassNames = classnames({
       dirty: !!dirty,
-      touched: !! touched
+      touched: !!touched
     });
     let props = Object.keys(this.props).reduce((prev, curr) => {
       if (curr !== 'className') {
@@ -122,5 +122,6 @@ PaperInput.propTypes = {
 PaperInput.defaultProps = {
   error: '',
   floatLabel: true,
-  type: 'text'
+  type: 'text',
+  className: 'big'
 };
