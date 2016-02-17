@@ -3,21 +3,28 @@
 [![Build Status](https://travis-ci.org/scienceai/paper-input.svg?branch=master)](https://travis-ci.org/scienceai/paper-input)
 
 ### Install
+
 ```
 npm install paper-input
 ```
 
 ### Using the Component
+
 ```js
 import PaperInput from 'paper-input';
 ```
 
 ### Using the CSS
+
+With postcss-import or similar
+
 ```css
-@import "/path/to/node_modules/paper-input/dist/paper-input.css";
+@import "paper-input/variables.css";
+@import "paper-input/paper-input.css";
 ```
 
 ### API
+
 * `label: String`: Required. The label that will be displayed on the `<input>` element.
 * `name: String`: Required. The `name` attribute that will be attached to the `<input>` element.
 * `className: String`: Optional.
@@ -31,6 +38,7 @@ import PaperInput from 'paper-input';
 * `value: String`: Optional.
 
 ### Example
+
 ```js
 <PaperInput
   name='email'
