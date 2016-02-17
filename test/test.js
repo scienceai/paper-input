@@ -1,7 +1,7 @@
 import assert from 'assert';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import PaperInput from '../src/paper-input';
+import PaperInput from '../src/';
 
 describe('PaperInput', () => {
 
