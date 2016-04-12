@@ -1,6 +1,6 @@
 {
   "name": "paper-input",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Paper Input React component",
   "main": "dist/index.js",
   "scripts": {
@@ -28,8 +28,8 @@
     "classnames": "^2.2.0"
   },
   "peerDependencies": {
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.5.1",
@@ -40,6 +40,8 @@
     "eslint": "^1.9.0",
     "eslint-plugin-react": "^3.8.0",
     "mocha": "^2.4.5",
-    "react-addons-test-utils": "^0.14.7"
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-addons-test-utils": "^15.0.1"
   }
 }
