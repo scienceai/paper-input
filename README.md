@@ -3,15 +3,27 @@
 [![Build Status](https://travis-ci.org/scienceai/paper-input.svg?branch=master)](https://travis-ci.org/scienceai/paper-input)
 
 ### Install
-
 ```
 npm install paper-input
 ```
 
-### Using the Component
-
+### Usage
 ```js
 import PaperInput from 'paper-input';
+
+function MyComponent() {
+  return (
+    <PaperInput
+      name='email'
+      label='Email Address'
+      type='email'
+      floatLabel={true}
+      error={this.state.error ? 'Please enter a valid email address' : ''}
+      onChange={this.handleChange.bind(this)}
+      value={this.state.email}
+    />
+  );
+}
 ```
 
 ### Using the CSS
@@ -37,15 +49,13 @@ With postcss-import or similar
 * `value: String`: Optional.
 
 ### Example
-
-```js
-<PaperInput
-  name='email'
-  label='Email Address'
-  type='email'
-  floatLabel={true}
-  error={this.state.error ? 'Please enter a valid email address' : ''}
-  onChange={this.handleChange.bind(this)}
-  value={this.state.email}
-/>
+For a fuller example, visit the `example/` directory.
 ```
+npm run watch
+```
+```
+open example/index.html
+```
+
+### License
+Apache-2.0
