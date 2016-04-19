@@ -4,11 +4,17 @@
   "description": "Paper Input React component",
   "main": "dist/index.js",
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "rm -rf dist; mkdir dist; npm run build-js & npm run build-css",
-    "build-js": "babel src --out-dir dist",
+    "prepublish": "rm -rf dist; mkdir dist; npm run build",
+    "build": "npm run build-js && npm run build-css",
+    "build-js": "NODE_ENV=production babel src --out-dir dist",
     "build-css": "postcss --use postcss-cssnext -o dist/paper-input.css src/index.css",
     "test": "mocha --compilers js:babel-register"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "repository": {
     "type": "git",
