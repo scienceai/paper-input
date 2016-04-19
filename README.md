@@ -19,8 +19,7 @@ import PaperInput from 'paper-input';
 With postcss-import or similar
 
 ```css
-@import "paper-input/variables.css";
-@import "paper-input/paper-input.css";
+@import "paper-input/dist/paper-input.css";
 ```
 
 ### API

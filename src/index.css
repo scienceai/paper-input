@@ -1,3 +1,8 @@
+:root {
+  --color_accent: #42A5F5;
+  --color_error: #D34336;
+}
+
 .paper-input {
   position: relative;
   width: 100%;
