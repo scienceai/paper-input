@@ -32,6 +32,11 @@
   letter-spacing: .05em;
 }
 
+.paper-input input:-webkit-autofill {
+  box-shadow: inset 0 0 0 25px #ffffff;
+  border-bottom: 1px solid #e1e1e1;
+}
+
 .paper-input input[disabled] {
   border-bottom: 1px dashed rgba(0,0,0, 0.12);
   background-color: transparent;
@@ -76,9 +81,17 @@
   visibility: hidden;
 }
 
+.paper-input input:-webkit-autofill ~ label {
+  visibility: hidden;
+}
+
 .paper-input input.dirty ~ label,
 .paper-input input.dirty:focus ~ label {
   /* hide the label when dirty */
+  color: rgba(0, 0, 0, 0);
+}
+
+.paper-input input:-webkit-autofill ~ label {
   color: rgba(0, 0, 0, 0);
 }
 
@@ -89,7 +102,17 @@
   visibility: visible;
 }
 
+.paper-input.float-label input:-webkit-autofill ~ label {
+  top: -14px;
+  font-size: 12px;
+  visibility: visible;
+}
+
 .paper-input.float-label input.dirty ~ label {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.paper-input.float-label input:-webkit-autofill ~ label {
   color: rgba(0, 0, 0, 0.26);
 }
 
