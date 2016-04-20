@@ -24,6 +24,12 @@ class App extends React.Component {
           </h1>
         </div>
         <div>
+          Check out the code at{' '}
+          <a href="https://github.com/scienceai/paper-input">
+            https://github.com/scienceai/paper-input
+          </a>
+        </div>
+        <div className='normal'>
           <PaperInput
             name='normal-text'
             label='Normal Text'
