@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { findDOMNode } from 'react-dom';
 import classnames from 'classnames';
 
@@ -6,7 +6,7 @@ function labelShouldCoverInput(props) {
   return !props.placeholder && !props.value;
 }
 
-export default class PaperInput extends Component {
+export default class PaperInput extends React.Component {
   constructor(props) {
     super(props);
 
@@ -77,11 +77,12 @@ export default class PaperInput extends Component {
   }
 
   render() {
-    let { floatLabel, className, name, label, error } = this.props;
+    let { floatLabel, className, name, label, error, large } = this.props;
     let { dirty, touched } = this.state;
     let containerClassNames = classnames({
       'paper-input': true,
       'float-label': !!floatLabel,
+      'big': large,
       [className]: !!className
     });
     let inputClassNames = classnames({
@@ -106,29 +107,32 @@ export default class PaperInput extends Component {
           onChange={this.handleChange.bind(this)}
         />
         <label htmlFor={name}>{label}</label>
-        <span className='error'>{error}</span>
+        {!!error && (
+          <span className='error'>{error}</span>
+        )}
       </div>
     );
   }
 }
 
+let { bool, func, string } = React.PropTypes;
+
 PaperInput.propTypes = {
-  className: PropTypes.string,
-  error: PropTypes.string,
-  floatLabel: PropTypes.bool,
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  onBlurCapture: PropTypes.func,
-  onChange: PropTypes.func,
-  onKeyPress: PropTypes.func,
-  placeholder: PropTypes.string,
-  type: PropTypes.string,
-  value: PropTypes.string
+  className: string,
+  error: string,
+  floatLabel: bool,
+  label: string.isRequired,
+  large: bool,
+  name: string.isRequired,
+  onBlurCapture: func,
+  onChange: func,
+  onKeyPress: func,
+  placeholder: string,
+  type: string,
+  value: string
 };
 
 PaperInput.defaultProps = {
-  error: '',
   floatLabel: true,
   type: 'text',
-  className: 'big'
 };
