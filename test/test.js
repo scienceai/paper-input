@@ -1,9 +1,16 @@
 import assert from 'assert';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import { jsdom } from 'jsdom';
+
 import PaperInput from '../src/';
 
 describe('PaperInput', () => {
+
+  before(() => {
+    global.document = jsdom('<!doctype html><html><body></body></html>');
+    global.window = global.document.defaultView;
+  });
 
   describe('html output', () => {
 
@@ -33,18 +40,34 @@ describe('PaperInput', () => {
       assert.equal(result.props.children[1].type, 'label');
     });
 
-    it('also renders a span when an error prop is passed', () => {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(
-        <PaperInput
+    it('also renders a span when an error prop is passed and the input has been touched', () => {
+      class WithoutCustomValidity extends PaperInput {
+        constructor(...args) {
+          super(...args);
+        }
+        // set componentDidUpdate to a noop as this is throwing the error
+        // "TypeError: input.setCustomValidity is not a function"
+        componentDidUpdate() {}
+      }
+
+      let counter = 0;
+      let instance = TestUtils.renderIntoDocument(
+        <WithoutCustomValidity
           name='name'
           label='Full Name'
           error='This field is required'
+          onFocus={e => { counter += 1; }}
+          required={true}
         />
       );
-      const result = shallowRenderer.getRenderOutput();
-      assert.equal(result.props.children[2].type, 'span');
-      assert.equal(result.props.children[2].props.children, 'This field is required');
+      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+      let domInput = TestUtils.findRenderedDOMComponentWithTag(instance, 'input');
+
+      TestUtils.Simulate.focus(domInput);
+      assert.equal(counter, 1);
+      let span = TestUtils.findRenderedDOMComponentWithTag(instance, 'span');
+      assert(span);
+      assert.equal(span.textContent, 'This field is required');
     });
 
   });
@@ -133,20 +156,6 @@ describe('PaperInput', () => {
       const result = shallowRenderer.getRenderOutput();
       const label = result.props.children[1];
       assert.equal(label.props.children, 'Full Name');
-    });
-
-    it('sets an error message in the span', () => {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(
-        <PaperInput
-          name='name'
-          label='Full Name'
-          error='Cannot be blank'
-        />
-      );
-      const result = shallowRenderer.getRenderOutput();
-      const span = result.props.children[2];
-      assert.equal(span.props.children, 'Cannot be blank');
     });
 
   });
