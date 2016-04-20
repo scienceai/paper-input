@@ -70,6 +70,14 @@ class App extends React.Component {
         </Row>
         <Row>
           <PaperInput
+            name='readonly'
+            label='Read Only'
+            readOnly={true}
+            large={true}
+          />
+        </Row>
+        <Row>
+          <PaperInput
             name='errors'
             label='Builtin Form Validation'
             type='email'
