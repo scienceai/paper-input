@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/scienceai/paper-input.svg?branch=master)](https://travis-ci.org/scienceai/paper-input)
 
+Check out a live demo at http://scienceai.github.io/paper-input
+
 ### Install
 ```
 npm install paper-input
