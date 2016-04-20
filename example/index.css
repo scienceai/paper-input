@@ -1,0 +1,15 @@
+body {
+  background: #f7f7f7
+}
+
+section {
+  padding: 50px;
+  margin: 50px auto;
+  width: 50vw;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+}
+
+section > div {
+  height: 60px;
+}
