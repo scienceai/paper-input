@@ -2,14 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PaperInput  from '../src';
 
-function Row({ children }) {
-  return (
-    <div style={{height: '60px'}}>
-      {children}
-    </div>
-  );
-}
-
 class App extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -25,58 +17,58 @@ class App extends React.Component {
 
   render() {
     return (
-      <section style={{margin: '50px auto', width: '50vw'}}>
-        <Row>
+      <section>
+        <div>
           <h1>
             <pre>{'<PaperInput>'}</pre>
           </h1>
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='normal-text'
             label='Normal Text'
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='large-text'
             label='Large Text'
             large={true}
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='no-float'
             label='No Float Label'
             large={true}
             floatLabel={false}
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='with-placeholder'
             label='With Placeholder'
             large={true}
             placeholder='Hello World'
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='disabled'
             label='Disabled'
             disabled={true}
             large={true}
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='readonly'
             label='Read Only'
             readOnly={true}
             large={true}
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='errors'
             label='Builtin Form Validation'
@@ -84,8 +76,8 @@ class App extends React.Component {
             placeholder='me@example.com'
             large={true}
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='custom-error'
             label='Custom Form Validation'
@@ -98,8 +90,8 @@ class App extends React.Component {
             }
             onChange={this.handleChange}
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='default-value'
             label='Default Value'
@@ -107,8 +99,8 @@ class App extends React.Component {
             defaultValue='a default value'
             placeholder='a placeholder'
           />
-        </Row>
-        <Row>
+        </div>
+        <div>
           <PaperInput
             name='controlled-component'
             label='Controlled Component'
@@ -117,7 +109,7 @@ class App extends React.Component {
             value={this.state['controlled-component']}
             onChange={this.handleChange}
           />
-        </Row>
+        </div>
       </section>
     )
   }
