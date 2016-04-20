@@ -9,17 +9,19 @@ function labelShouldCoverInput(props) {
 export default class PaperInput extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       touched: false,
       dirty: !labelShouldCoverInput(props)
     };
+    this.handleBlurCapture = this.handleBlurCapture.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      dirty: !labelShouldCoverInput(nextProps) || !!findDOMNode(this.refs.input).value,
-      touched: (nextProps.value) ? this.state.touched : false
+      dirty: !labelShouldCoverInput(nextProps) || !!findDOMNode(this.refs.input).value
     });
   }
 
@@ -42,16 +44,6 @@ export default class PaperInput extends React.Component {
     });
   }
 
-  handleKeyPress(e) {
-    if (this.props.onKeyPress) {
-      this.props.onKeyPress(e);
-    }
-
-    if (!this.state.touched) {
-      this.setState({ touched: true });
-    }
-  }
-
   handleChange(e) {
     if (this.props.onChange) {
       this.props.onChange(e);
@@ -63,6 +55,25 @@ export default class PaperInput extends React.Component {
 
     if (!e.target.value && this.state.dirty) {
       this.setState({ dirty: !labelShouldCoverInput(this.props) });
+    }
+  }
+
+  handleFocus(e) {
+    if (this.props.onFocus) {
+      this.props.onFocus(e);
+    }
+
+    this.setState({ touched: true });
+  }
+
+
+  handleKeyPress(e) {
+    if (this.props.onKeyPress) {
+      this.props.onKeyPress(e);
+    }
+
+    if (!this.state.touched) {
+      this.setState({ touched: true });
     }
   }
 
@@ -86,28 +97,23 @@ export default class PaperInput extends React.Component {
       [className]: !!className
     });
     let inputClassNames = classnames({
-      dirty: !!dirty,
-      touched: !!touched
+      dirty,
+      touched
     });
-    let props = Object.keys(this.props).reduce((prev, curr) => {
-      if (curr !== 'className') {
-        prev[curr] = this.props[curr];
-      }
-      return prev;
-    }, {});
 
     return (
       <div className={containerClassNames}>
         <input
-          {...props}
+          {...this.props}
           ref='input'
           className={inputClassNames}
-          onBlurCapture={this.handleBlurCapture.bind(this)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-          onChange={this.handleChange.bind(this)}
+          onBlurCapture={this.handleBlurCapture}
+          onChange={this.handleChange}
+          onFocus={this.handleFocus}
+          onKeyPress={this.handleKeyPress}
         />
         <label htmlFor={name}>{label}</label>
-        {!!error && (
+        {!!error && touched && (
           <span className='error'>{error}</span>
         )}
       </div>
@@ -125,6 +131,7 @@ PaperInput.propTypes = {
   large: bool,
   name: string.isRequired,
   onBlurCapture: func,
+  onFocus: func,
   onChange: func,
   onKeyPress: func,
   placeholder: string,

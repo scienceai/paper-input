@@ -52,6 +52,7 @@ The `<PaperInput>` component has the following internal structure:
 * `floatLabel`: Boolean. Optional. Floats the `<label>` above the `<input>` when focused. Defaults to `true`.
 * `large`: String. Optional. Adds a CSS class to increase the font size of the `<input>` and `<label>`.
 * `onBlurCapture`: Function. Optional. Called on the `blur` event on the `<input>`.
+* `onFocus`: Function. Optional. Called on the `focus` event on the `<input>`.
 * `onKeyPress`: Function. Optional. Called on the `keypress` event on the `<input>`.
 * `onChange`: Function. Optional. Called on the `change` event on the `<input>`.
 * `placeholder`: String. Optional.

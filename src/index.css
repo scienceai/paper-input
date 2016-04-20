@@ -140,12 +140,7 @@
   margin-top: 3px;
   color: var(--color_error);
   font-size: 12px;
-  visibility: hidden;
   letter-spacing: normal;
-}
-
-.paper-input input.touched:invalid ~ .error {
-  visibility: visible;
 }
 
 .paper-input input.touched:focus:invalid {
