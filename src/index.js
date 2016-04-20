@@ -2,19 +2,23 @@ import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import classnames from 'classnames';
 
+function labelShouldCoverInput(props) {
+  return !props.placeholder && !props.value;
+}
+
 export default class PaperInput extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       touched: false,
-      dirty: ('defaultValue' in props) ? !!props.defaultValue : !!props.value
+      dirty: !labelShouldCoverInput(props)
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      dirty: (('defaultValue' in nextProps) ? !!nextProps.defaultValue : !!nextProps.value) || !!findDOMNode(this.refs.input).value,
+      dirty: !labelShouldCoverInput(nextProps) || !!findDOMNode(this.refs.input).value,
       touched: (nextProps.value) ? this.state.touched : false
     });
   }
@@ -29,10 +33,12 @@ export default class PaperInput extends Component {
   }
 
   handleBlurCapture(e) {
-    this.setState({ dirty: !!e.target.value }, () => {
-      if (this.props.onBlurCapture) {
-        this.props.onBlurCapture(e);
-      }
+    if (this.props.onBlurCapture) {
+      this.props.onBlurCapture(e);
+    }
+
+    this.setState({
+      dirty: !labelShouldCoverInput(this.props) || !!e.target.value
     });
   }
 
@@ -56,7 +62,7 @@ export default class PaperInput extends Component {
     }
 
     if (!e.target.value && this.state.dirty) {
-      this.setState({ dirty: false });
+      this.setState({ dirty: !labelShouldCoverInput(this.props) });
     }
   }
 
@@ -108,7 +114,6 @@ export default class PaperInput extends Component {
 
 PaperInput.propTypes = {
   className: PropTypes.string,
-  defaultValue: PropTypes.string,
   error: PropTypes.string,
   floatLabel: PropTypes.bool,
   label: PropTypes.string.isRequired,
@@ -116,6 +121,7 @@ PaperInput.propTypes = {
   onBlurCapture: PropTypes.func,
   onChange: PropTypes.func,
   onKeyPress: PropTypes.func,
+  placeholder: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.string
 };

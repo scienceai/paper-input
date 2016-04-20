@@ -22,6 +22,7 @@ class App extends React.Component {
           name='email'
           label='Email Address'
           type='email'
+          placeholder='me@example.com'
           floatLabel={true}
           onChange={this.handleChange.bind(this)}
         />
