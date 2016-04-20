@@ -8,8 +8,17 @@ section {
   width: 50vw;
   background: #ffffff;
   border: 1px solid #e0e0e0;
+  font-family: Helvetica;
 }
 
 section > div {
   height: 60px;
+}
+
+section > :nth-child(2) {
+  height: 30px;
+}
+
+.normal {
+  height: 50px;
 }
