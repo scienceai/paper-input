@@ -47,6 +47,12 @@
   background-color: transparent;
 }
 
+.paper-input input[readonly] {
+  border-bottom: none !important;
+  background-color: transparent;
+  pointer-events: none;
+}
+
 .paper-input input ~ label {
   width: 100%;
   letter-spacing: normal;
