@@ -14,13 +14,13 @@ class App extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      controlledComponentValue: ''
+      'controlled-component': ''
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
-    this.setState({ controlledComponentValue: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
@@ -71,10 +71,24 @@ class App extends React.Component {
         <Row>
           <PaperInput
             name='errors'
-            label='Form Validation'
+            label='Builtin Form Validation'
             type='email'
             placeholder='me@example.com'
             large={true}
+          />
+        </Row>
+        <Row>
+          <PaperInput
+            name='custom-error'
+            label='Custom Form Validation'
+            placeholder={'type a few letters'}
+            large={true}
+            error={
+              !this.state['custom-error'] || this.state['custom-error'].length < 5 ?
+              'Please enter at least 5 letters' :
+              null
+            }
+            onChange={this.handleChange}
           />
         </Row>
         <Row>
@@ -92,7 +106,7 @@ class App extends React.Component {
             label='Controlled Component'
             large={true}
             placeholder='a placeholder'
-            value={this.state.controlledComponentValue}
+            value={this.state['controlled-component']}
             onChange={this.handleChange}
           />
         </Row>
