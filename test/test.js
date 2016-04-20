@@ -20,7 +20,7 @@ describe('PaperInput', () => {
       assert(result.props.className.match(/paper\-input/));
     });
 
-    it('renders an input, label, and span as children', () => {
+    it('renders an input and label as children', () => {
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(
         <PaperInput
@@ -31,7 +31,20 @@ describe('PaperInput', () => {
       const result = shallowRenderer.getRenderOutput();
       assert.equal(result.props.children[0].type, 'input');
       assert.equal(result.props.children[1].type, 'label');
+    });
+
+    it('also renders a span when an error prop is passed', () => {
+      const shallowRenderer = TestUtils.createRenderer();
+      shallowRenderer.render(
+        <PaperInput
+          name='name'
+          label='Full Name'
+          error='This field is required'
+        />
+      );
+      const result = shallowRenderer.getRenderOutput();
       assert.equal(result.props.children[2].type, 'span');
+      assert.equal(result.props.children[2].props.children, 'This field is required');
     });
 
   });
