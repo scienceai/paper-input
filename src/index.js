@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import classnames from 'classnames';
 
 function labelShouldCoverInput(props) {
-  return !props.placeholder && !props.value;
+  return !props.value && !props.defaultValue && !props.placeholder;
 }
 
 export default class PaperInput extends React.Component {

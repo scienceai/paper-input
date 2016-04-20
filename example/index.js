@@ -14,23 +14,27 @@ class App extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      value: null
+      controlledComponentValue: ''
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
-    console.log({ [e.target.name]: e.target.value });
+    this.setState({ controlledComponentValue: e.target.value });
   }
 
   render() {
     return (
       <section style={{margin: '50px auto', width: '50vw'}}>
         <Row>
+          <h1>
+            <pre>{'<PaperInput>'}</pre>
+          </h1>
+        </Row>
+        <Row>
           <PaperInput
             name='normal-text'
             label='Normal Text'
-            onChange={this.handleChange}
           />
         </Row>
         <Row>
@@ -38,7 +42,6 @@ class App extends React.Component {
             name='large-text'
             label='Large Text'
             large={true}
-            onChange={this.handleChange}
           />
         </Row>
         <Row>
@@ -47,7 +50,6 @@ class App extends React.Component {
             label='No Float Label'
             large={true}
             floatLabel={false}
-            onChange={this.handleChange}
           />
         </Row>
         <Row>
@@ -56,15 +58,41 @@ class App extends React.Component {
             label='With Placeholder'
             large={true}
             placeholder='Hello World'
-            onChange={this.handleChange}
           />
         </Row>
         <Row>
           <PaperInput
-            name='email'
-            label='Email Address'
-            type='email'
+            name='disabled'
+            label='Disabled'
+            disabled={true}
             large={true}
+          />
+        </Row>
+        <Row>
+          <PaperInput
+            name='errors'
+            label='Form Validation'
+            type='email'
+            placeholder='me@example.com'
+            large={true}
+          />
+        </Row>
+        <Row>
+          <PaperInput
+            name='default-value'
+            label='Default Value'
+            large={true}
+            defaultValue='a default value'
+            placeholder='a placeholder'
+          />
+        </Row>
+        <Row>
+          <PaperInput
+            name='controlled-component'
+            label='Controlled Component'
+            large={true}
+            placeholder='a placeholder'
+            value={this.state.controlledComponentValue}
             onChange={this.handleChange}
           />
         </Row>

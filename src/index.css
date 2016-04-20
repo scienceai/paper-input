@@ -43,7 +43,7 @@
 }
 
 .paper-input input[disabled] {
-  border-bottom: 1px dashed rgba(0,0,0, 0.12);
+  border-bottom: 1px dashed rgba(0,0,0, 0.12) !important;
   background-color: transparent;
 }
 
