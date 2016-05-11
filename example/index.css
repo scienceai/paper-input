@@ -12,13 +12,5 @@ section {
 }
 
 section > div {
-  height: 60px;
-}
-
-section > :nth-child(2) {
-  height: 30px;
-}
-
-.normal {
-  height: 50px;
+  margin-bottom: 40px;
 }
