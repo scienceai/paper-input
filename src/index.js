@@ -79,11 +79,19 @@ export default class PaperInput extends React.Component {
 
   //convenience method to be called by a container component
   cancel() {
+    console.warn(
+      '<PaperInput>.cancel() has been deprecated and will be removed ' +
+      'in the next version of paper-input.'
+    );
     findDOMNode(this.refs.input).value = '';
     this.setState({ dirty: false });
   }
 
   getValue() {
+    console.warn(
+      '<PaperInput>.getValue() has been deprecated and will be removed ' +
+      'in the next version of paper-input.'
+    );
     return findDOMNode(this.refs.input).value;
   }
 
