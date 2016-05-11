@@ -11,7 +11,7 @@ export default class PaperInput extends React.Component {
     super(props);
     this.state = {
       touched: false,
-      dirty: !labelShouldCoverInput(props)
+      dirty: !labelShouldCoverInput(props),
     };
     this.handleBlurCapture = this.handleBlurCapture.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -21,7 +21,7 @@ export default class PaperInput extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      dirty: !labelShouldCoverInput(nextProps) || !!findDOMNode(this.refs.input).value
+      dirty: !labelShouldCoverInput(nextProps) || !!findDOMNode(this.refs.input).value,
     });
   }
 
@@ -34,14 +34,22 @@ export default class PaperInput extends React.Component {
     }
   }
 
-  handleBlurCapture(e) {
-    if (this.props.onBlurCapture) {
-      this.props.onBlurCapture(e);
-    }
+  getValue() {
+    console.warn(
+      '<PaperInput>.getValue() has been deprecated and will be removed ' +
+      'in the next version of paper-input.'
+    );
+    return findDOMNode(this.refs.input).value;
+  }
 
-    this.setState({
-      dirty: !labelShouldCoverInput(this.props) || !!e.target.value
-    });
+  // convenience method to be called by a container component
+  cancel() {
+    console.warn(
+      '<PaperInput>.cancel() has been deprecated and will be removed ' +
+      'in the next version of paper-input.'
+    );
+    findDOMNode(this.refs.input).value = '';
+    this.setState({ dirty: false });
   }
 
   handleChange(e) {
@@ -66,7 +74,6 @@ export default class PaperInput extends React.Component {
     this.setState({ touched: true });
   }
 
-
   handleKeyDown(e) {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e);
@@ -77,22 +84,14 @@ export default class PaperInput extends React.Component {
     }
   }
 
-  //convenience method to be called by a container component
-  cancel() {
-    console.warn(
-      '<PaperInput>.cancel() has been deprecated and will be removed ' +
-      'in the next version of paper-input.'
-    );
-    findDOMNode(this.refs.input).value = '';
-    this.setState({ dirty: false });
-  }
+  handleBlurCapture(e) {
+    if (this.props.onBlurCapture) {
+      this.props.onBlurCapture(e);
+    }
 
-  getValue() {
-    console.warn(
-      '<PaperInput>.getValue() has been deprecated and will be removed ' +
-      'in the next version of paper-input.'
-    );
-    return findDOMNode(this.refs.input).value;
+    this.setState({
+      dirty: !labelShouldCoverInput(this.props) || !!e.target.value,
+    });
   }
 
   render() {
@@ -101,19 +100,19 @@ export default class PaperInput extends React.Component {
     let containerClassNames = classnames({
       'paper-input': true,
       'float-label': !!floatLabel,
-      'big': large,
-      [className]: !!className
+      big: large,
+      [className]: !!className,
     });
     let inputClassNames = classnames({
       dirty,
-      touched
+      touched,
     });
 
     return (
       <div className={containerClassNames}>
         <input
           {...this.props}
-          ref='input'
+          ref="input"
           className={inputClassNames}
           onBlurCapture={this.handleBlurCapture}
           onChange={this.handleChange}
@@ -122,7 +121,7 @@ export default class PaperInput extends React.Component {
         />
         <label htmlFor={name}>{label}</label>
         {!!error && touched && (
-          <span className='error'>{error}</span>
+          <span className="error">{error}</span>
         )}
       </div>
     );
@@ -139,12 +138,12 @@ PaperInput.propTypes = {
   large: bool,
   name: string.isRequired,
   onBlurCapture: func,
-  onFocus: func,
   onChange: func,
+  onFocus: func,
   onKeyDown: func,
   placeholder: string,
   type: string,
-  value: string
+  value: string,
 };
 
 PaperInput.defaultProps = {
