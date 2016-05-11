@@ -16,7 +16,7 @@ export default class PaperInput extends React.Component {
     this.handleBlurCapture = this.handleBlurCapture.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -67,9 +67,9 @@ export default class PaperInput extends React.Component {
   }
 
 
-  handleKeyPress(e) {
-    if (this.props.onKeyPress) {
-      this.props.onKeyPress(e);
+  handleKeyDown(e) {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
     }
 
     if (!this.state.touched) {
@@ -110,7 +110,7 @@ export default class PaperInput extends React.Component {
           onBlurCapture={this.handleBlurCapture}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
-          onKeyPress={this.handleKeyPress}
+          onKeyDown={this.handleKeyDown}
         />
         <label htmlFor={name}>{label}</label>
         {!!error && touched && (
@@ -133,7 +133,7 @@ PaperInput.propTypes = {
   onBlurCapture: func,
   onFocus: func,
   onChange: func,
-  onKeyPress: func,
+  onKeyDown: func,
   placeholder: string,
   type: string,
   value: string
