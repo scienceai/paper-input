@@ -76,11 +76,16 @@ class App extends React.Component {
         </div>
         <div>
           <PaperInput
-            name="errors"
-            label="Builtin Form Validation"
+            name="email"
+            label="Email Validation"
             type="email"
             placeholder="me@example.com"
+            error={(!this.state.email || !this.state.email.match(/.+@.+\..+/)) ?
+              'Please enter a valid email address' :
+              null
+            }
             large={true}
+            onChange={this.handleChange}
           />
         </div>
         <div>
@@ -89,11 +94,24 @@ class App extends React.Component {
             label="Custom Form Validation"
             placeholder="type a few letters"
             large={true}
-            error={
-              !this.state['custom-error'] || this.state['custom-error'].length < 5 ?
+            error={(!this.state['custom-error'] || this.state['custom-error'].length < 5) ?
               'Please enter at least 5 letters' :
               null
             }
+            onChange={this.handleChange}
+          />
+        </div>
+        <div>
+          <PaperInput
+            name="display-error"
+            label="Always Display Error"
+            placeholder="type a few letters"
+            large={true}
+            error={(!this.state['display-error'] || this.state['display-error'].length < 5) ?
+              'Please enter at least 5 letters' :
+              null
+            }
+            mustDisplayError={true}
             onChange={this.handleChange}
           />
         </div>
