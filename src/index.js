@@ -2,16 +2,14 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import classnames from 'classnames';
 
-function labelShouldCoverInput(props) {
-  return !props.value && !props.defaultValue && !props.placeholder;
-}
-
 export default class PaperInput extends React.Component {
   constructor(props) {
     super(props);
+    this._value = props.value || props.defaultValue || '';
     this.state = {
       touched: false,
-      dirty: !labelShouldCoverInput(props),
+      dirty: !!this._value,
+      focused: false,
     };
     this.handleBlurCapture = this.handleBlurCapture.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -20,14 +18,17 @@ export default class PaperInput extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.value) {
+      this._value = nextProps._value;
+    }
     this.setState({
-      dirty: !labelShouldCoverInput(nextProps) || !!findDOMNode(this.refs.input).value,
+      dirty: !!this._value,
     });
   }
 
   componentDidUpdate() {
     let input = findDOMNode(this.refs.input);
-    if (this.props.error) {
+    if (this.shouldDisplayError()) {
       input.setCustomValidity(this.props.error);
     } else {
       input.setCustomValidity('');
@@ -52,18 +53,20 @@ export default class PaperInput extends React.Component {
     this.setState({ dirty: false });
   }
 
+  shouldDisplayError() {
+    return this.props.error && (
+      (this.state.touched && this.state.dirty) ||
+      this.props.mustDisplayError
+    );
+  }
+
   handleChange(e) {
+    this._value = e.target.value;
     if (this.props.onChange) {
       this.props.onChange(e);
     }
 
-    if (e.target.value && !this.state.dirty) {
-      this.setState({ dirty: true });
-    }
-
-    if (!e.target.value && this.state.dirty) {
-      this.setState({ dirty: !labelShouldCoverInput(this.props) });
-    }
+    this.setState({ dirty: !!this._value });
   }
 
   handleFocus(e) {
@@ -71,7 +74,7 @@ export default class PaperInput extends React.Component {
       this.props.onFocus(e);
     }
 
-    this.setState({ touched: true });
+    this.setState({ touched: true, focused: true });
   }
 
   handleKeyDown(e) {
@@ -89,14 +92,12 @@ export default class PaperInput extends React.Component {
       this.props.onBlurCapture(e);
     }
 
-    this.setState({
-      dirty: !labelShouldCoverInput(this.props) || !!e.target.value,
-    });
+    this.setState({ dirty: !!this._value, focused: false });
   }
 
   render() {
-    let { floatLabel, className, name, label, error, large } = this.props;
-    let { dirty, touched } = this.state;
+    let { floatLabel, className, label, error, large, ...inputProps } = this.props;
+    let { dirty, touched, focused } = this.state;
     let containerClassNames = classnames({
       'paper-input': true,
       'float-label': !!floatLabel,
@@ -107,11 +108,17 @@ export default class PaperInput extends React.Component {
       dirty,
       touched,
     });
+    if (inputProps.placeholder && !focused) {
+      inputProps = {
+        ...inputProps,
+        placeholder: undefined,
+      };
+    }
 
     return (
       <div className={containerClassNames}>
         <input
-          {...this.props}
+          {...inputProps}
           ref="input"
           className={inputClassNames}
           onBlurCapture={this.handleBlurCapture}
@@ -119,8 +126,8 @@ export default class PaperInput extends React.Component {
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
         />
-        <label htmlFor={name}>{label}</label>
-        {!!error && touched && (
+        <label htmlFor={inputProps.name}>{label}</label>
+        {this.shouldDisplayError() && (
           <span className="error">{error}</span>
         )}
       </div>
@@ -132,10 +139,12 @@ let { bool, func, string } = React.PropTypes;
 
 PaperInput.propTypes = {
   className: string,
+  defaultValue: string,
   error: string,
   floatLabel: bool,
   label: string.isRequired,
   large: bool,
+  mustDisplayError: bool,
   name: string.isRequired,
   onBlurCapture: func,
   onChange: func,

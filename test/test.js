@@ -5,21 +5,55 @@ import { jsdom } from 'jsdom';
 
 import PaperInput from '../src/';
 
-describe('PaperInput', () => {
+class WithoutCustomValidity extends PaperInput {
+  // set componentDidUpdate to a noop as this is throwing the error
+  // "TypeError: input.setCustomValidity is not a function"
+  componentDidUpdate() {}
+}
 
+class Wrapper extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      error: null,
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    if (e.target.value.length < 3) {
+      this.setState({ error: 'This field is required' });
+    } else {
+      this.setState({ error: null });
+    }
+  }
+
+  render() {
+    return (
+      <WithoutCustomValidity
+        name="name"
+        label="Full Name"
+        error={this.state.error}
+        onChange={this.handleChange}
+        required={true}
+      />
+    );
+  }
+}
+
+describe('PaperInput', () => {
   before(() => {
     global.document = jsdom('<!doctype html><html><body></body></html>');
     global.window = global.document.defaultView;
   });
 
   describe('html output', () => {
-
     it('renders a div with className "paper-input"', () => {
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(
         <PaperInput
-          name='name'
-          label='Full Name'
+          name="name"
+          label="Full Name"
         />
       );
       const result = shallowRenderer.getRenderOutput();
@@ -31,8 +65,8 @@ describe('PaperInput', () => {
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(
         <PaperInput
-          name='name'
-          label='Full Name'
+          name="name"
+          label="Full Name"
         />
       );
       const result = shallowRenderer.getRenderOutput();
@@ -40,46 +74,89 @@ describe('PaperInput', () => {
       assert.equal(result.props.children[1].type, 'label');
     });
 
-    it('also renders a span when an error prop is passed and the input has been touched', () => {
-      class WithoutCustomValidity extends PaperInput {
-        constructor(...args) {
-          super(...args);
-        }
-        // set componentDidUpdate to a noop as this is throwing the error
-        // "TypeError: input.setCustomValidity is not a function"
-        componentDidUpdate() {}
-      }
-
-      let counter = 0;
-      let instance = TestUtils.renderIntoDocument(
-        <WithoutCustomValidity
-          name='name'
-          label='Full Name'
-          error='This field is required'
-          onFocus={e => { counter += 1; }}
-          required={true}
-        />
-      );
+    it('renders the error only if the input has been focused and has an invalid value', () => {
+      let instance = TestUtils.renderIntoDocument(<Wrapper />);
       assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
       let domInput = TestUtils.findRenderedDOMComponentWithTag(instance, 'input');
 
+      // initial render has no error
       TestUtils.Simulate.focus(domInput);
-      assert.equal(counter, 1);
-      let span = TestUtils.findRenderedDOMComponentWithTag(instance, 'span');
-      assert(span);
-      assert.equal(span.textContent, 'This field is required');
+      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+
+      // an invalid input triggers an error
+      domInput.value = 'x';
+      TestUtils.Simulate.change(domInput);
+      assert.equal(
+        TestUtils.findRenderedDOMComponentWithTag(instance, 'span').textContent,
+        'This field is required'
+      );
+
+      // blurring with an invalid input preserves the error
+      TestUtils.Simulate.blur(domInput);
+      assert.equal(
+        TestUtils.findRenderedDOMComponentWithTag(instance, 'span').textContent,
+        'This field is required'
+      );
+
+      // a valid input will remove the error
+      domInput.value = 'xyz';
+      TestUtils.Simulate.change(domInput);
+      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
     });
 
+    it('does not render an error when the input is cleared', () => {
+      let instance = TestUtils.renderIntoDocument(<Wrapper />);
+      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+      let domInput = TestUtils.findRenderedDOMComponentWithTag(instance, 'input');
+
+      // initial render has no error
+      TestUtils.Simulate.focus(domInput);
+      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+
+      // an invalid input triggers an error
+      domInput.value = 'x';
+      TestUtils.Simulate.change(domInput);
+      assert.equal(
+        TestUtils.findRenderedDOMComponentWithTag(instance, 'span').textContent,
+        'This field is required'
+      );
+
+      // blurring with an invalid input preserves the error
+      TestUtils.Simulate.blur(domInput);
+      assert.equal(
+        TestUtils.findRenderedDOMComponentWithTag(instance, 'span').textContent,
+        'This field is required'
+      );
+
+      // clearing the input will remove the error
+      domInput.value = '';
+      TestUtils.Simulate.change(domInput);
+      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+    });
+
+    it('renders a span when error and mustDisplayError props are passed', () => {
+      const shallowRenderer = TestUtils.createRenderer();
+      shallowRenderer.render(
+        <PaperInput
+          name="name"
+          label="Full Name"
+          error="This field is required"
+          mustDisplayError={true}
+        />
+      );
+      const result = shallowRenderer.getRenderOutput();
+      assert.equal(result.props.children[0].type, 'input');
+      assert.equal(result.props.children[1].type, 'label');
+    });
   });
 
   describe('props', () => {
-
     it('floatLabel adds a "float-label" class to the div, and is true by default', () => {
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(
         <PaperInput
-          name='name'
-          label='Full Name'
+          name="name"
+          label="Full Name"
           floatLabel={true}
         />
       );
@@ -89,8 +166,8 @@ describe('PaperInput', () => {
       const shallowRenderer1 = TestUtils.createRenderer();
       shallowRenderer1.render(
         <PaperInput
-          name='name'
-          label='Full Name'
+          name="name"
+          label="Full Name"
           floatLabel={false}
         />
       );
@@ -100,8 +177,8 @@ describe('PaperInput', () => {
       const shallowRenderer2 = TestUtils.createRenderer();
       shallowRenderer2.render(
         <PaperInput
-          name='name'
-          label='Full Name'
+          name="name"
+          label="Full Name"
         />
       );
       const resultWithFloatLabelOmitted = shallowRenderer2.getRenderOutput();
@@ -112,9 +189,9 @@ describe('PaperInput', () => {
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(
         <PaperInput
-          name='name'
-          label='Full Name'
-          className='custom-css-class'
+          name="name"
+          label="Full Name"
+          className="custom-css-class"
         />
       );
       const result = shallowRenderer.getRenderOutput();
@@ -122,16 +199,14 @@ describe('PaperInput', () => {
     });
 
     it('passes all other props to the input', () => {
-      function customHandler(e) {
-        console.log(e);
-      }
+      function customHandler() {}
 
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(
         <PaperInput
-          name='name'
-          label='Full Name'
-          defaultValue='Your Name Here'
+          name="name"
+          label="Full Name"
+          defaultValue="Your Name Here"
           required={true}
           customHandler={customHandler}
         />
@@ -139,7 +214,6 @@ describe('PaperInput', () => {
       const result = shallowRenderer.getRenderOutput();
       const input = result.props.children[0];
       assert.equal(input.props.name, 'name');
-      assert.equal(input.props.label, 'Full Name');
       assert.equal(input.props.defaultValue, 'Your Name Here');
       assert.equal(input.props.required, true);
       assert.equal(input.props.customHandler, customHandler);
@@ -149,8 +223,8 @@ describe('PaperInput', () => {
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(
         <PaperInput
-          name='name'
-          label='Full Name'
+          name="name"
+          label="Full Name"
         />
       );
       const result = shallowRenderer.getRenderOutput();
@@ -158,6 +232,38 @@ describe('PaperInput', () => {
       assert.equal(label.props.children, 'Full Name');
     });
 
-  });
+    it('does not display the placeholder until focused', () => {
+      let focused = false;
+      class FocusWrapper extends React.Component {
+        componentDidUpdate() {
+          if (focused) {
+            assert.equal(this.refs.input.placeholder, 'Doug');
+          } else {
+            assert(!this.refs.input.placeholder);
+          }
+        }
 
+        render() {
+          return (
+            <WithoutCustomValidity
+              ref="input"
+              name="name"
+              label="Full Name"
+              placeholder="Doug"
+              onBlurCapture={() => { focused = false; }}
+              onFocus={() => { focused = true; }}
+            />
+          );
+        }
+      }
+
+      let instance = TestUtils.renderIntoDocument(<FocusWrapper />);
+      let domInput = TestUtils.findRenderedDOMComponentWithTag(instance, 'input');
+      assert(!focused);
+      TestUtils.Simulate.focus(domInput);
+      assert(focused);
+      TestUtils.Simulate.blur(domInput);
+      assert(!focused);
+    });
+  });
 });
