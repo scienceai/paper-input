@@ -18,7 +18,7 @@ export default class PaperInput extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value) {
+    if (nextProps.value != null) {
       this._value = nextProps.value;
     }
     this.setState({
