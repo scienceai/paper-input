@@ -127,6 +127,7 @@ export default class PaperInput extends React.Component {
           onKeyDown={this.handleKeyDown}
         />
         <label htmlFor={inputProps.name}>{label}</label>
+        <span className="border-line" />
         {this.shouldDisplayError() && (
           <span className="error">{error}</span>
         )}
