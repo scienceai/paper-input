@@ -64,8 +64,9 @@
   left: 0;
   bottom: 4px;
   color: var(--color_label_text);
-  transition: color 200ms linear,
-              letter-spacing 200ms linear;
+  transform: scale(1) translate3d(0, 0, 0);
+  transform-origin: top left;
+  transition: color 200ms ease-in, transform 200ms ease-in;
 }
 
 .paper-input input:focus {
@@ -73,42 +74,26 @@
   top: 0;
 }
 
-.paper-input input ~ label::after {
-  content: '';
-  background-color: var(--color_accent);
-  height: 2px;
-  width: 100%;
-  bottom: -4px;
-  opacity: 0;
-  position: absolute;
-  transition: opacity 500ms ease;
-  left: 0;
-}
-
-.paper-input input:focus ~ label::after {
-  width: 100%;
-  opacity: 1;
-  left: 0;
-}
-
 .paper-input input.dirty ~ label,
-.paper-input input:-webkit-autofill ~ label {
-  visibility: hidden;
-}
-
-.paper-input input.dirty ~ label,
-.paper-input input.dirty:focus ~ label,
 .paper-input input:-webkit-autofill ~ label {
   /* hide the label when dirty */
+  visibility: hidden;
   color: var(--color_transparent);
 }
 
 .paper-input.float-label input:focus ~ label,
 .paper-input.float-label input.dirty ~ label,
 .paper-input.float-label input:-webkit-autofill ~ label {
-  top: -14px;
-  font-size: 12px;
   visibility: visible;
+  transform: scale(0.7) translate3d(0, -22px, 0);
+  transform-origin: top left;
+  transition: color 200ms ease-in, transform 200ms ease-in;
+}
+
+.paper-input.float-label.big input:focus ~ label,
+.paper-input.float-label.big input.dirty ~ label,
+.paper-input.float-label.big input:-webkit-autofill ~ label {
+  transform: scale(0.7) translate3d(0, -27px, 0);
 }
 
 .paper-input.float-label input.dirty ~ label,
@@ -121,13 +106,7 @@
 }
 
 .paper-input.float-label input.touched:focus:invalid ~ label {
-  top: -14px;
-  font-size: 12px;
   color: var(--color_error);
-}
-
-.paper-input input.touched:invalid ~ label::after {
-  background-color: var(--color_error);
 }
 
 .paper-input .error {
