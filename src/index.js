@@ -53,11 +53,12 @@ export default class PaperInput extends React.Component {
     this.setState({ dirty: false });
   }
 
-  shouldDisplayError() {
-    return this.props.error && (
-      (this.state.touched && this.state.dirty) ||
-      this.props.mustDisplayError
-    );
+  handleBlurCapture(e) {
+    if (this.props.onBlurCapture) {
+      this.props.onBlurCapture(e);
+    }
+
+    this.setState({ dirty: !!this._value, focused: false });
   }
 
   handleChange(e) {
@@ -87,13 +88,13 @@ export default class PaperInput extends React.Component {
     }
   }
 
-  handleBlurCapture(e) {
-    if (this.props.onBlurCapture) {
-      this.props.onBlurCapture(e);
-    }
-
-    this.setState({ dirty: !!this._value, focused: false });
+  shouldDisplayError() {
+    return this.props.error && (
+      (this.state.touched && this.state.dirty) ||
+      this.props.mustDisplayError
+    );
   }
+
 
   render() {
     let { floatLabel, className, label, error, large, ...inputProps } = this.props;
@@ -126,7 +127,9 @@ export default class PaperInput extends React.Component {
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
         />
-        <label htmlFor={inputProps.name}>{label}</label>
+        <label htmlFor={inputProps.name}>
+          {label}
+        </label>
         <span className="border-line" />
         {this.shouldDisplayError() && (
           <span className="error">{error}</span>

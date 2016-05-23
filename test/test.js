@@ -76,62 +76,62 @@ describe('PaperInput', () => {
 
     it('renders the error only if the input has been focused and has an invalid value', () => {
       let instance = TestUtils.renderIntoDocument(<Wrapper />);
-      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+      assert(!TestUtils.scryRenderedDOMComponentsWithClass(instance, 'error').length);
       let domInput = TestUtils.findRenderedDOMComponentWithTag(instance, 'input');
 
       // initial render has no error
       TestUtils.Simulate.focus(domInput);
-      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+      assert(!TestUtils.scryRenderedDOMComponentsWithClass(instance, 'error').length);
 
       // an invalid input triggers an error
       domInput.value = 'x';
       TestUtils.Simulate.change(domInput);
       assert.equal(
-        TestUtils.findRenderedDOMComponentWithTag(instance, 'span').textContent,
+        TestUtils.findRenderedDOMComponentWithClass(instance, 'error').textContent,
         'This field is required'
       );
 
       // blurring with an invalid input preserves the error
       TestUtils.Simulate.blur(domInput);
       assert.equal(
-        TestUtils.findRenderedDOMComponentWithTag(instance, 'span').textContent,
+        TestUtils.findRenderedDOMComponentWithClass(instance, 'error').textContent,
         'This field is required'
       );
 
       // a valid input will remove the error
       domInput.value = 'xyz';
       TestUtils.Simulate.change(domInput);
-      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+      assert(!TestUtils.scryRenderedDOMComponentsWithClass(instance, 'error').length);
     });
 
     it('does not render an error when the input is cleared', () => {
       let instance = TestUtils.renderIntoDocument(<Wrapper />);
-      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+      assert(!TestUtils.scryRenderedDOMComponentsWithClass(instance, 'error').length);
       let domInput = TestUtils.findRenderedDOMComponentWithTag(instance, 'input');
 
       // initial render has no error
       TestUtils.Simulate.focus(domInput);
-      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+      assert(!TestUtils.scryRenderedDOMComponentsWithClass(instance, 'error').length);
 
       // an invalid input triggers an error
       domInput.value = 'x';
       TestUtils.Simulate.change(domInput);
       assert.equal(
-        TestUtils.findRenderedDOMComponentWithTag(instance, 'span').textContent,
+        TestUtils.findRenderedDOMComponentWithClass(instance, 'error').textContent,
         'This field is required'
       );
 
       // blurring with an invalid input preserves the error
       TestUtils.Simulate.blur(domInput);
       assert.equal(
-        TestUtils.findRenderedDOMComponentWithTag(instance, 'span').textContent,
+        TestUtils.findRenderedDOMComponentWithClass(instance, 'error').textContent,
         'This field is required'
       );
 
       // clearing the input will remove the error
       domInput.value = '';
       TestUtils.Simulate.change(domInput);
-      assert(!TestUtils.scryRenderedDOMComponentsWithTag(instance, 'span').length);
+      assert(!TestUtils.scryRenderedDOMComponentsWithClass(instance, 'error').length);
     });
 
     it('renders a span when error and mustDisplayError props are passed', () => {
