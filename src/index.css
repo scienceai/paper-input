@@ -74,7 +74,13 @@
   top: 0;
 }
 
-.paper-input input.dirty ~ label,
+.paper-input input.dirty ~ label {
+  /* hide the label when dirty */
+  visibility: hidden;
+  color: var(--color_transparent);
+}
+
+/* Duplicate previous rule so it is not skipped by non-webkit browsers */
 .paper-input input:-webkit-autofill ~ label {
   /* hide the label when dirty */
   visibility: hidden;
@@ -82,7 +88,14 @@
 }
 
 .paper-input.float-label input:focus ~ label,
-.paper-input.float-label input.dirty ~ label,
+.paper-input.float-label input.dirty ~ label {
+  visibility: visible;
+  transform: scale(0.7) translate3d(0, -22px, 0);
+  transform-origin: top left;
+  transition: color 200ms ease-out, transform 200ms ease-out;
+}
+
+/* Duplicate previous rule so it is not skipped by non-webkit browsers */
 .paper-input.float-label input:-webkit-autofill ~ label {
   visibility: visible;
   transform: scale(0.7) translate3d(0, -22px, 0);
@@ -91,13 +104,21 @@
 }
 
 .paper-input.float-label.big input:focus ~ label,
-.paper-input.float-label.big input.dirty ~ label,
+.paper-input.float-label.big input.dirty ~ label {
+  transform: scale(0.7) translate3d(0, -27px, 0);
+}
+
+/* Duplicate previous rule so it is not skipped by non-webkit browsers */
 .paper-input.float-label.big input:-webkit-autofill ~ label {
   transform: scale(0.7) translate3d(0, -27px, 0);
 }
 
 .paper-input.float-label input[readonly] ~ label,
-.paper-input.float-label input.dirty ~ label,
+.paper-input.float-label input.dirty ~ label {
+  color: var(--color_label_text);
+}
+
+/* Duplicate previous rule so it is not skipped by non-webkit browsers */
 .paper-input.float-label input:-webkit-autofill ~ label {
   color: var(--color_label_text);
 }
