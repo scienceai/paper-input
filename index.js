@@ -34,6 +34,11 @@ class App extends React.Component {
           label="Normal Text"
         />
         <PaperInput
+          name="normal-text"
+          label="Normal Text With Existing Value"
+          value="Ceci est un test"
+        />
+        <PaperInput
           name="large-text"
           label="Large Text"
           large={true}
