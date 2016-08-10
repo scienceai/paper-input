@@ -8,10 +8,10 @@
     "prepublish": "rm -rf dist; mkdir dist; npm run build; npm run subtree-push",
     "build": "npm run build-js && npm run build-css",
     "build-js": "NODE_ENV=production babel src --out-dir dist",
-    "build-css": "postcss --use postcss-cssnext -o dist/paper-input.css src/index.css",
+    "build-css": "cssnow src/index.css dist/paper-input.css",
     "build-example": "npm run build-example-js && npm run build-example-css",
     "build-example-js": "browserify example/index.js -t babelify -o ./example/bundle.js -dv",
-    "build-example-css": "postcss --use postcss-cssnext -o example/index.min.css example/index.css",
+    "build-example-css": "cssnow example/index.css example/index.min.css",
     "watch": "npm run watch-js & npm run watch-css",
     "watch-js": "watchify ./example/index.js -t babelify -o ./example/bundle.js -dv",
     "watch-css": "nodemon -e css -w ./src/ --exec 'npm run build-css'",
@@ -48,8 +48,8 @@
     "classnames": "2.2.5"
   },
   "peerDependencies": {
-    "react": ">= 0.14.0",
-    "react-dom": ">= 0.14.0"
+    "react": ">= 15.0.0",
+    "react-dom": ">= 15.0.0"
   },
   "devDependencies": {
     "babel-cli": "6.11.4",
@@ -57,13 +57,11 @@
     "babel-preset-react": "6.11.1",
     "babel-register": "6.11.6",
     "babelify": "7.3.0",
+    "cssnow": "2.0.0",
     "eslint-config-scienceai": "1.4.2",
     "jsdom": "9.4.1",
     "mocha": "3.0.2",
     "nodemon": "1.10.0",
-    "postcss": "5.1.2",
-    "postcss-cli": "2.5.2",
-    "postcss-cssnext": "2.7.0",
     "react": "15.3.0",
     "react-addons-test-utils": "15.3.0",
     "react-dom": "15.3.0",
