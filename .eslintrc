@@ -1,8 +1,0 @@
-{
-  "extends": "scienceai",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    },
-  },
-}

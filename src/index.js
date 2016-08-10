@@ -1,5 +1,5 @@
+
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import classnames from 'classnames';
 
 export default class PaperInput extends React.Component {
@@ -11,116 +11,83 @@ export default class PaperInput extends React.Component {
       dirty: !!this._value,
       focused: false,
     };
-    this.handleBlurCapture = this.handleBlurCapture.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.input = null;
+    ['handleBlurCapture', 'handleChange', 'handleFocus', 'handleKeyDown', 'handleInputRef']
+      .forEach(meth => (this[meth] = this[meth].bind(this)));
   }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value != null) {
-      this._value = nextProps.value;
-    }
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.value != null) this._value = nextProps.value;
     this.setState({
       dirty: !!this._value,
     });
   }
-
-  componentDidUpdate() {
-    let input = findDOMNode(this.refs.input);
-    if (this.shouldDisplayError()) {
-      input.setCustomValidity(this.props.error);
-    } else {
-      input.setCustomValidity('');
-    }
+  componentDidUpdate () {
+    this.input.setCustomValidity(this.shouldDisplayError() ? this.props.error : '');
   }
-
-  getValue() {
+  getValue () {
     console.warn(
       '<PaperInput>.getValue() has been deprecated and will be removed ' +
       'in the next version of paper-input.'
     );
-    return findDOMNode(this.refs.input).value;
+    return this.input.value;
   }
-
   // convenience method to be called by a container component
-  cancel() {
+  cancel () {
     console.warn(
       '<PaperInput>.cancel() has been deprecated and will be removed ' +
       'in the next version of paper-input.'
     );
-    findDOMNode(this.refs.input).value = '';
+    this.input.value = '';
     this.setState({ dirty: false });
   }
-
-  handleBlurCapture(e) {
-    if (this.props.onBlurCapture) {
-      this.props.onBlurCapture(e);
-    }
-
+  handleBlurCapture (e) {
+    if (this.props.onBlurCapture) this.props.onBlurCapture(e);
     this.setState({ dirty: !!this._value, focused: false });
   }
-
-  handleChange(e) {
+  handleChange (e) {
     this._value = e.target.value;
-    if (this.props.onChange) {
-      this.props.onChange(e);
-    }
-
+    if (this.props.onChange) this.props.onChange(e);
     this.setState({ dirty: !!this._value });
   }
-
-  handleFocus(e) {
-    if (this.props.onFocus) {
-      this.props.onFocus(e);
-    }
-
+  handleFocus (e) {
+    if (this.props.onFocus) this.props.onFocus(e);
     this.setState({ touched: true, focused: true });
   }
-
-  handleKeyDown(e) {
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(e);
-    }
-
-    if (!this.state.touched) {
-      this.setState({ touched: true });
-    }
+  handleKeyDown (e) {
+    if (this.props.onKeyDown) this.props.onKeyDown(e);
+    if (!this.state.touched) this.setState({ touched: true });
   }
-
-  shouldDisplayError() {
+  handleInputRef (ref) {
+    this.input = ref;
+  }
+  shouldDisplayError () {
     return this.props.error && (
       (this.state.touched && this.state.dirty) ||
       this.props.mustDisplayError
     );
   }
-
-
-  render() {
-    let { floatLabel, className, label, error, large, ...inputProps } = this.props;
-    let { dirty, touched, focused } = this.state;
-    let containerClassNames = classnames({
-      'paper-input': true,
-      'float-label': !!floatLabel,
-      big: large,
-      [className]: !!className,
-    });
-    let inputClassNames = classnames({
-      dirty,
-      touched,
-    });
+  render () {
+    let { floatLabel, className, label, error, large, name, autoFocus, value,
+      placeholder, type } = this.props
+      , inputProps = { name, autoFocus, value, placeholder, type }
+      , { dirty, touched, focused } = this.state
+      , containerClassNames = classnames({
+          'paper-input':  true,
+          'float-label':  !!floatLabel,
+          big:            large,
+          [className]:    !!className,
+        })
+      , inputClassNames = classnames({ dirty, touched })
+    ;
     if (inputProps.placeholder && !focused) {
-      inputProps = {
-        ...inputProps,
-        placeholder: undefined,
-      };
+      inputProps = Object.assign({}, inputProps, { placeholder: undefined });
     }
 
     return (
       <div className={containerClassNames}>
         <input
           {...inputProps}
-          ref="input"
+          ref={this.handleInputRef}
           className={inputClassNames}
           onBlurCapture={this.handleBlurCapture}
           onChange={this.handleChange}
@@ -138,28 +105,26 @@ export default class PaperInput extends React.Component {
     );
   }
 }
-
-let { bool, func, string } = React.PropTypes;
-
+const { bool, func, string } = React.PropTypes;
 PaperInput.propTypes = {
-  className: string,
-  defaultValue: string,
-  error: string,
-  floatLabel: bool,
-  label: string.isRequired,
-  large: bool,
+  className:        string,
+  defaultValue:     string,
+  error:            string,
+  floatLabel:       bool,
+  label:            string.isRequired,
+  large:            bool,
   mustDisplayError: bool,
-  name: string.isRequired,
-  onBlurCapture: func,
-  onChange: func,
-  onFocus: func,
-  onKeyDown: func,
-  placeholder: string,
-  type: string,
-  value: string,
+  name:             string.isRequired,
+  onBlurCapture:    func,
+  onChange:         func,
+  onFocus:          func,
+  onKeyDown:        func,
+  placeholder:      string,
+  type:             string,
+  value:            string,
+  autoFocus:        bool,
 };
-
 PaperInput.defaultProps = {
   floatLabel: true,
-  type: 'text',
+  type:       'text',
 };
