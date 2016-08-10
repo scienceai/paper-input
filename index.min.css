@@ -1,5 +1,174 @@
+.paper-input {
+  position: relative;
+  width: 100%;
+  margin: 36px 0;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: .05em;
+}
 
-@import "../src/index.css";
+.paper-input.big, .paper-input.big input {
+  font-size: 16px;
+}
+
+.paper-input button {
+  margin-top: auto;
+  margin-bottom: auto;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+}
+
+.paper-input input {
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+  border: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: 0px !important;
+  padding: 4px 0;
+  background-color: rgba(0, 0, 0, 0);
+  letter-spacing: .05em;
+}
+
+.paper-input input:-webkit-autofill {
+  box-shadow: inset 0 0 0 25px #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.paper-input input[disabled] {
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.12) !important;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.paper-input input[readonly] {
+  border-bottom: none !important;
+  background-color: rgba(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+.paper-input input ~ label {
+  width: 100%;
+  letter-spacing: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  bottom: 4px;
+  color: rgba(0, 0, 0, 0.26);
+  transform: scale(1) translate3d(0, 0, 0);
+  transform-origin: top left;
+  transition: color 200ms ease-in, transform 200ms ease-in;
+}
+
+.paper-input input:focus {
+  outline: none;
+  top: 0;
+}
+
+.paper-input input.dirty ~ label {
+  /* hide the label when dirty */
+  visibility: hidden;
+  color: rgba(0, 0, 0, 0);
+}
+
+/* Duplicate previous rule so it is not skipped by non-webkit browsers */
+
+.paper-input input:-webkit-autofill ~ label {
+  /* hide the label when dirty */
+  visibility: hidden;
+  color: rgba(0, 0, 0, 0);
+}
+
+.paper-input.float-label input:focus ~ label,
+.paper-input.float-label input.dirty ~ label {
+  visibility: visible;
+  transform: scale(0.7) translate3d(0, -22px, 0);
+  transform-origin: top left;
+  transition: color 200ms ease-out, transform 200ms ease-out;
+}
+
+/* Duplicate previous rule so it is not skipped by non-webkit browsers */
+
+.paper-input.float-label input:-webkit-autofill ~ label {
+  visibility: visible;
+  transform: scale(0.7) translate3d(0, -22px, 0);
+  transform-origin: top left;
+  transition: color 200ms ease-out, transform 200ms ease-out;
+}
+
+.paper-input.float-label.big input:focus ~ label,
+.paper-input.float-label.big input.dirty ~ label {
+  transform: scale(0.7) translate3d(0, -27px, 0);
+}
+
+/* Duplicate previous rule so it is not skipped by non-webkit browsers */
+
+.paper-input.float-label.big input:-webkit-autofill ~ label {
+  transform: scale(0.7) translate3d(0, -27px, 0);
+}
+
+.paper-input.float-label input[readonly] ~ label,
+.paper-input.float-label input.dirty ~ label {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+/* Duplicate previous rule so it is not skipped by non-webkit browsers */
+
+.paper-input.float-label input:-webkit-autofill ~ label {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.paper-input.float-label input[readonly]:focus ~ label {
+  color: rgba(0, 0, 0, 0.26);
+  transform: none;
+}
+
+.paper-input.float-label input:focus ~ label {
+  color: #42A5F5;
+}
+
+.paper-input.float-label input.touched:focus:invalid ~ label {
+  color: #D34336;
+}
+
+.paper-input input ~ .border-line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: inherit;
+  height: 2px;
+  background-color: #42A5F5;
+  transform: scaleX(0);
+  transition: color 200ms ease-in, transform 200ms ease-in;
+}
+
+.paper-input input:invalid ~ .border-line {
+  background-color: #D34336;
+}
+
+.paper-input input:focus ~ .border-line {
+  transform: scaleX(1);
+  transition: color 200ms ease-out, transform 200ms ease-out;
+}
+
+.paper-input input[readonly] ~ .border-line {
+  background-color: rgba(0, 0, 0, 0);
+  transform: none;
+}
+
+.paper-input .error {
+  float: left;
+  margin-top: 3px;
+  color: #D34336;
+  font-size: 12px;
+  letter-spacing: normal;
+}
+
+.paper-input input.touched:focus:invalid {
+  box-shadow: none;
+  border-color: #D34336;
+}
 
 body {
   background: #f7f7f7
