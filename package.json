@@ -5,14 +5,15 @@
   "main": "dist/index.js",
   "style": "src/index.css",
   "scripts": {
-    "prepublish": "rm -rf dist; mkdir dist; npm run build",
+    "prepublish": "rm -rf dist; mkdir dist; npm run build; npm run subtree-push",
     "build": "npm run build-js && npm run build-css",
     "build-js": "NODE_ENV=production babel src --out-dir dist",
     "build-css": "postcss --use postcss-cssnext -o dist/paper-input.css src/index.css",
     "watch": "npm run watch-js & npm run watch-css",
     "watch-js": "watchify ./example/index.js -t babelify -o ./example/bundle.js -dv",
     "watch-css": "nodemon -e css -w ./src/ --exec 'npm run build-css'",
-    "test": "mocha --compilers js:babel-register"
+    "test": "mocha --compilers js:babel-register",
+    "subtree-push": "git subtree push --prefix example origin gh-pages"
   },
   "babel": {
     "presets": [
