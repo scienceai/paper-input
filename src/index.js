@@ -68,8 +68,8 @@ export default class PaperInput extends React.Component {
   }
   render () {
     let { floatLabel, className, label, error, large, name, autoFocus, value,
-      placeholder, type } = this.props
-      , inputProps = { name, autoFocus, value, placeholder, type }
+      placeholder, type, required, defaultValue } = this.props
+      , inputProps = { name, autoFocus, value, placeholder, type, required, defaultValue }
       , { dirty, touched, focused } = this.state
       , containerClassNames = classnames({
           'paper-input':  true,
@@ -123,6 +123,7 @@ PaperInput.propTypes = {
   type:             string,
   value:            string,
   autoFocus:        bool,
+  required:         bool,
 };
 PaperInput.defaultProps = {
   floatLabel: true,

@@ -1,3 +1,4 @@
+
 import assert from 'assert';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
@@ -198,9 +199,7 @@ describe('PaperInput', () => {
       assert(result.props.className.match(/custom\-css\-class/));
     });
 
-    it('passes all other props to the input', () => {
-      function customHandler() {}
-
+    it('passes props to the input', () => {
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(
         <PaperInput
@@ -208,7 +207,6 @@ describe('PaperInput', () => {
           label="Full Name"
           defaultValue="Your Name Here"
           required={true}
-          customHandler={customHandler}
         />
       );
       const result = shallowRenderer.getRenderOutput();
@@ -216,7 +214,6 @@ describe('PaperInput', () => {
       assert.equal(input.props.name, 'name');
       assert.equal(input.props.defaultValue, 'Your Name Here');
       assert.equal(input.props.required, true);
-      assert.equal(input.props.customHandler, customHandler);
     });
 
     it('uses the label prop as the text of the label element', () => {
