@@ -1,7 +1,7 @@
 
 # `<PaperInput />`
 
-[![Build Status](https://travis-ci.org/scienceai/paper-input.svg?branch=master)](https://travis-ci.org/scienceai/paper-input)
+[![CircleCI](https://circleci.com/gh/scienceai/paper-input.svg?style=svg)](https://circleci.com/gh/scienceai/paper-input)
 
 Check out a live demo at http://scienceai.github.io/paper-input
 
