@@ -1,0 +1,20 @@
+{
+  "use": [
+    "postcss-import",
+    "postcss-url",
+    "postcss-cssnext",
+    "cssnano",
+    "postcss-browser-reporter",
+    "postcss-reporter"
+  ],
+  "output": "static/css/reader.css",
+  "no-map": true,
+  "postcss-cssnext": {
+    "browsers": "last 2 versions",
+    "verbose":  true
+  },
+  "cssnano": {
+    "autoprefixer": false,
+    "safe":         true
+  }
+}
